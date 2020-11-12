@@ -13,17 +13,17 @@ export class AppComponent implements OnInit{
   users: any;
 
   constructor(private http: HttpClient, private accountService: AccountService){}
-
+// tslint:disable-next-line: typedef
   ngOnInit(){
     this.getUsers();
     this.setCurrentUser();
   }
-
+// tslint:disable-next-line: typedef
   setCurrentUser(){
     const user: User = JSON.parse(localStorage.getItem('user)'));
     this.accountService.setCurrentUser(user);
   }
-  
+  // tslint:disable-next-line: typedef
   getUsers(){
     this.http.get('https://localhost:5001/api/users').subscribe(response => {
       this.users = response;

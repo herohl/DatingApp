@@ -20,26 +20,29 @@ export class NavComponent implements OnInit {
     this.getCurrentUser();
   }
 
+  // tslint:disable-next-line: typedef
   login(){
     this.accountService.login(this.model).subscribe(response => {
       console.log(response);
       this.loggedIn = true;
     }, error => {
       console.log(error);
-    })
+    });
   }
 
+  // tslint:disable-next-line: typedef
   logout(){
     this.accountService.logout();
     this.loggedIn = false;
   }
 
+  // tslint:disable-next-line: typedef
   getCurrentUser() {
     this.accountService.currentUser$.subscribe(user => {
       this.loggedIn = !!user;
     }, error => {
       console.log(error);
-    })
+    });
   }
 
 }

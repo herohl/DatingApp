@@ -15,6 +15,7 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
+  // tslint:disable-next-line: typedef
   login(model: any){
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
@@ -27,10 +28,12 @@ export class AccountService {
     )
   }
 
+  // tslint:disable-next-line: typedef
   setCurrentUser(user: User){
     this.currentUserSource.next(user);
   }
 
+  // tslint:disable-next-line: typedef
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
