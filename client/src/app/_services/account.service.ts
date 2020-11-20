@@ -8,19 +8,17 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
-
+  baseUrl = 'http://localhost:5000/api/';
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  // tslint:disable-next-line: typedef
-  login(model: any){
-    return this.http.post(this.baseUrl + 'account/login', model).pipe(
+  login(model: any) {
+    return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
         const user = response;
-        if(user){
+        if (user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
@@ -28,14 +26,24 @@ export class AccountService {
     )
   }
 
-  // tslint:disable-next-line: typedef
-  setCurrentUser(user: User){
+  register(model: any) {
+    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+      map( user => {
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+          this.currentUserSource.next(user);
+        }
+        return user;
+      })
+    )
+  }
+
+  setCurrentUser(user: User) {
     this.currentUserSource.next(user);
   }
 
-  // tslint:disable-next-line: typedef
-  logout(){
+  logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next(null);
+    this.currentUserSource.next();
   }
 }
